@@ -5,20 +5,15 @@ class habit:
         self.name = name 
         self.description = description
         self.period = period 
+        self.count = 0
 
-    habits_lst = []
+    def increment(self):
+        self.count += 1 
 
-    def record_activity(): 
-        print('test')
+    def reset(self):
+        self.count = 0
 
-    def delete_activity():
-        pass 
+    def __str__(self):
+        return f'{self.name}: {self.count}'
 
-    def change_date():
-        pass
 
-    def set_up_habit():
-        
-        habits_lst.append(x)
-
-habit.record_activity()
