@@ -23,23 +23,20 @@ def create_table(db):
     db.commit()
 
 def add_habit(db, name, description, period):
-    connect = get_db()
     cur = db.cursor()
     cur.execute('INSERT INTO habit VALUES (?, ?, ?)', (name, description, period))
-    connect.commit()
+    db.commit()
 
 def increment_habit(db, name, event_date):
-    connect = get_db()
     cur = db.cursor()
     if not event_date:
-        event_date = date.today()
+        event_date = str(date.today())
     cur.execute('INSERT INTO tracker VALUES (?, ?)', (event_date, name))
-    connect.commit()
+    db.commit()
 
 def get_habit_data(db, name):
-    connect = get_db()
     cur = db.cursor()
-    cur.execute("SELECT * FROM habit WHERE name=?", (name,))
+    cur.execute('SELECT * FROM tracker WHERE habitName=?', (name,))
     return cur.fetchall()
 
 db = get_db()
