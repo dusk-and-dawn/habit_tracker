@@ -19,19 +19,24 @@ def cli():
             habit = Habit(name, description, period)
             habit.store(db)
         elif choice == 'record habit':
-            pick_habit = questionary.text('please do choose one of the following habits to record:').ask()
+            list_for_picking = get_just_habits(db)
+            dict_final_choices = {}
+            for entry in list_for_picking:
+                dict_final_choices[entry]=entry
+            print(list_for_picking)
+            pick_habit = questionary.select('please do choose one of the following habits to record:', choices=dict_final_choices).ask()
             description2 = '\'sup this is filler text'
             period = 'more filler text'
             habit = Habit(pick_habit, description2, period)
             habit.increment()
             habit.add_event(db)
         elif choice == 'analyse': 
-            if 'name' not in locals():
-                name = questionary.text('Enter the name of the habit you want to analyze: ').ask()
+            name = questionary.text('Enter the name of the habit you want to analyze: ').ask()
             count = count_everything(db, name)
             print(f'{name} has been recorded {count} times.')
         elif choice == 'show me all you\'ve got':
             print_database_contents(db)
+            #get_just_habits(db)
         else: 
             print('I really hope I did a good job, thank you for using my functionalities.')
             stop = True
