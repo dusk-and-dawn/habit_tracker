@@ -39,5 +39,13 @@ def get_habit_data(db, name):
     cur.execute('SELECT * FROM tracker WHERE habitName=?', (name,))
     return cur.fetchall()
 
+def get_just_habits(db):
+    cur = db.cursor()
+    cur.execute('SELECT name FROM habit')
+    habit_list = [row[0] for row in cur.fetchall()]
+    return habit_list
+
 db = get_db()
 create_table(db)
+
+#print(get_just_habits(db))
