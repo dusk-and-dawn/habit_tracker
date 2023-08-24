@@ -1,6 +1,7 @@
 from habits import Habit
 from db import get_db, add_habit, increment_habit
 import os
+import pytest
 
 class TestHabit: 
 
