@@ -17,6 +17,7 @@ def print_database_contents(db):
         print("Name:", habit[0])
         print("Description:", habit[1])
         print("Period:", habit[2])
+        print('count', habit[3])
         print()
 
     # Retrieve and print data from the tracker table

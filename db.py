@@ -33,7 +33,9 @@ def increment_habit(db, name, event_date):
     if not event_date:
         event_date = str(date.today())
     cur.execute('INSERT INTO tracker VALUES (?, ?)', (event_date, name))
+    #print(f"Recording event: Habit: {name}, Date: {event_date}")
     cur.execute('UPDATE habit SET count = count + 1 WHERE name = ?', (name,))
+    #print(f"Event recorded: Habit: {name}, Count updated.")
     db.commit()
 
 def get_habit_data(db, name):
