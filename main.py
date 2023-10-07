@@ -10,7 +10,7 @@ def cli():
 
     while not stop:
         choice = questionary.select('How can I be helpful?', 
-        choices=['create', 'record habit', 'analyse', 'show me all you\'ve got', 'exit']).ask()
+        choices=['create', 'record habit', 'analyse', 'reset habit', 'show me all you\'ve got', 'exit']).ask()
 
         if choice == 'create':
             name = questionary.text('what new habit would you like to create?').ask()
@@ -23,12 +23,11 @@ def cli():
             dict_final_choices = {}
             for entry in list_for_picking:
                 dict_final_choices[entry]=entry
-            print(list_for_picking)
             pick_habit = questionary.select('please do choose one of the following habits to record:', choices=dict_final_choices).ask()
             description2 = '\'sup this is filler text'
             period = 'more filler text'
             habit = Habit(pick_habit, description2, period)
-            habit.increment()
+            habit.increment(db)
             habit.add_event(db)
         elif choice == 'analyse': 
             name = questionary.text('Enter the name of the habit you want to analyze: ').ask()
@@ -37,6 +36,16 @@ def cli():
         elif choice == 'show me all you\'ve got':
             print_database_contents(db)
             #get_just_habits(db)
+        elif choice == 'reset habit':
+            list_for_picking = get_just_habits(db)
+            dict_final_choices = {}
+            for entry in list_for_picking:
+                dict_final_choices[entry]=entry
+            chosen_habit = questionary.select('which habit would you like to reset:', choices=dict_final_choices).ask()
+            description2 = '\'sup this is filler text'
+            period = 'more filler text'
+            habit = Habit(chosen_habit, description2, period)
+            habit.reset(db)
         else: 
             print('I really hope I did a good job, thank you for using my functionalities.')
             stop = True

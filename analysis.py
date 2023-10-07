@@ -1,8 +1,10 @@
 from db import get_habit_data
 
 def count_everything(db, habit):
-    data = get_habit_data(db, habit)
-    return len(data)
+    cur = db.cursor()
+    cur.execute('SELECT count FROM habit WHERE name = ?', (habit,))
+    result = cur.fetchone()
+    return result[0] if result else 0
 
 def print_database_contents(db):
     cur = db.cursor()

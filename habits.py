@@ -7,11 +7,17 @@ class Habit:
         self.period = period 
         self.count = 0
 
-    def increment(self):
+    def increment(self, db):
         self.count += 1 
+        cur = db.cursor()
+        cur.execute('UPDATE habit SET count = ? WHERE name = ?', (self.count, self.name))
+        db.commit()
 
-    def reset(self):
+    def reset(self, db):
         self.count = 0
+        cur = db.cursor()
+        cur.execute('UPDATE habit SET count = 0 WHERE name = ?', (self.name,))
+        db.commit()
 
     def __str__(self):
         return f'{self.name}: {self.count}'

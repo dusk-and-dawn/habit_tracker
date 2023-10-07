@@ -13,7 +13,8 @@ def create_table(db):
     cur.execute('''CREATE TABLE IF NOT EXISTS habit (
         name TEXT PRIMARY KEY, 
         description TEXT,
-        period TEXT)''')
+        period TEXT,
+        count INTEGER DEFAULT 0)''')
                 
     cur.execute('''CREATE TABLE IF NOT EXISTS tracker (
         date TEXT, 
@@ -24,7 +25,7 @@ def create_table(db):
 
 def add_habit(db, name, description, period):
     cur = db.cursor()
-    cur.execute('INSERT INTO habit VALUES (?, ?, ?)', (name, description, period))
+    cur.execute('INSERT INTO habit VALUES (?, ?, ?, 0)', (name, description, period))
     db.commit()
 
 def increment_habit(db, name, event_date):
@@ -32,6 +33,7 @@ def increment_habit(db, name, event_date):
     if not event_date:
         event_date = str(date.today())
     cur.execute('INSERT INTO tracker VALUES (?, ?)', (event_date, name))
+    cur.execute('UPDATE habit SET count = count + 1 WHERE name = ?', (name,))
     db.commit()
 
 def get_habit_data(db, name):
